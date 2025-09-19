@@ -1,4 +1,4 @@
-import ShortUrl from "../config/models/shorturl.model";
+import ShortUrl from "../config/models/shorturl.model.js";
 
 export const SaveShortUrl = async (shorturl, longurl, userId) => {
     const newurl = new ShortUrl({
@@ -11,4 +11,9 @@ export const SaveShortUrl = async (shorturl, longurl, userId) => {
     }
     await newurl.save();
     return newurl;
+};
+
+export const findUrlfromshorturl = async (shorturl) => {
+    const url = await ShortUrl.findOne({ short: shorturl });
+    return url;
 };
