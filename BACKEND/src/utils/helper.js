@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import jsonwebtoken from "jsonwebtoken"
 
-export const generateNanoId = (length) =>{
+export const generatenanoId = (length) =>{
     return nanoid(length);
 }
 
