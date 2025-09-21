@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "@tanstack/react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/slice/authSlice";
