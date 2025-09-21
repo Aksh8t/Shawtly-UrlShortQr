@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/slice/authSlice.js";
 import { useNavigate } from "@tanstack/react-router";
 
-const LoginForm = ({ state }) => {
-  const [email, setEmail] = useState("sarkaranurag104@gmail.com");
-  const [password, setPassword] = useState("password123");
+const LoginForm = ({ state, onSuccess }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  console.log(auth);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -21,8 +20,8 @@ const LoginForm = ({ state }) => {
     try {
       const data = await loginUser(password, email);
       dispatch(login(data.user));
-      navigate({ to: "/dashboard" });
       setLoading(false);
+      onSuccess && onSuccess();
       console.log("signin success");
     } catch (err) {
       setLoading(false);
@@ -32,7 +31,10 @@ const LoginForm = ({ state }) => {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
         {error && (
@@ -83,7 +85,6 @@ const LoginForm = ({ state }) => {
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             type="submit"
-            onClick={handleSubmit}
             disabled={loading}
           >
             {loading ? "Signing in..." : "Sign In"}
@@ -101,7 +102,7 @@ const LoginForm = ({ state }) => {
             </span>
           </p>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
